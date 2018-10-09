@@ -1,0 +1,28 @@
+.left-col, .right-col {
+    margin-top: 1em;
+}
+
+.col.left-col {
+    border-right: 1px solid black;
+}
+
+.large {
+    font-size: 2em;
+    width: 100%;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.blue {
+    color: blue;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Session Words</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+        <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+        crossorigin="anonymous" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/first_app/css/styles.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col left-col">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form action="/process" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="large" name="session_word">Add a new word</label>
+                            <input type="text" name="session_word" />
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="red" name="session_color">Red
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="green" name="session_color">Green
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" value="blue" name="session_color">Blue
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <input type="checkbox" name="bigfont" class="form-check-input">
+                            <label class="form-check-label" name="bigfont">show in BIG fonts!</label>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Add to session</button>
+                    </form>
+                </div>
+                <div class="col right-col">
+                    <form action="/reset" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Clear Session</button>
+                    </form>
+                    {% for word in request.session.words %}
+                        <p><span class="{{ word.session_font }} {{ word.session_color }}">{{ word.session_word }}</span> - added on {{ word.session_time }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
